@@ -15,16 +15,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "sounds_table";
     public static final String COL_1 = "ID";
     public static final String COL_2 = "TITLE";
-    public static final String COL_3 = "IMAGE";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null,1);
-        SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_NAME + "(" + COL_1 + "INTEGER PRIMARY KEY AUTOINCREMENT,"+ COL_2 + " TEXT,"+ COL_3 + " BLOB" +")" );
+        db.execSQL("create table " + TABLE_NAME + "("+ COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT,"+ COL_2 + " TEXT "+")" );
     }
 
     @Override
@@ -36,26 +34,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //ADDING NEW SOUNDS
-    public void insertData(String title,String name,byte[] image)
+    public boolean insertData(String title)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "INSERT INTO SOUNDS VALUES (NULL,?,?,?)";
-
-        SQLiteStatement statement = db.compileStatement(sql);
-        statement.clearBindings();
-
-        statement.bindString(1,title);
-        statement.bindString(2,name);
-        statement.bindBlob(3,image);
-
-        statement.executeInsert();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_2,title);
+        long result = db.insert(TABLE_NAME,null,contentValues);
+        if (result==-1)
+            return  false;
+        else
+            return true;
     }
 
-    public Cursor getData(String sql){
+    public Cursor getSoundData(String sql){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery(sql,null);
     }
 
+    public Cursor getASoundData(String _id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from " + DATABASE_NAME + " WHERE " + COL_1+ " =?", new String[]{_id});
+        return cursor;
+    }
 
     /*public Cursor getAllData()
     {
@@ -63,5 +63,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
         return res;
     }*/
-
 }

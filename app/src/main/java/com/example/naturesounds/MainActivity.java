@@ -1,6 +1,7 @@
 package com.example.naturesounds;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -30,15 +32,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         private ArrayList<SoundsModel> mSoundsModels = new ArrayList<>();
         private RecyclerView.LayoutManager mLayoutManager;
         DatabaseHelper myDb;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
+
+        //Database
+        myDb = new DatabaseHelper(this);
+        final String PREFS_NAME = "MyPrefsFile";
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        if(settings.getBoolean("firstTime",true)){
+            Toast.makeText(this,"First Time",Toast.LENGTH_LONG).show();
+            settings.edit().putBoolean("firstTime", false).apply();
+        }
+
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
 
 
         //Setting Recycler View
@@ -143,5 +156,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.putExtra("SoundId",position);
         startActivity(intent);
     }
-
 }

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.content.Intent.getIntent;
 import static com.example.naturesounds.PlayActivity.CHANNEL_ID;
 
 public class MusicService extends Service implements MediaPlayer.OnPreparedListener,MediaPlayer.OnErrorListener,MediaPlayer.OnCompletionListener{
@@ -29,11 +30,15 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     private MediaPlayer player;
     //current position
     private int songPosn;
+    private int id;
     //Binding
     private final IBinder musicBind = new MusicBinder();
     //SoundsModel class
     private SoundsModel mSoundsModel ;
+    //Intent
+    private Intent mIntent;
 
+    private Context mContext;
     //Adapter
     private SoundsAdapter mSoundsAdapter;
 
@@ -53,6 +58,7 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
         songPosn=0;
         player = new MediaPlayer();
         initMusicPlayer();
+
     }
     public void initMusicPlayer(){
         //set player properties
@@ -90,9 +96,20 @@ public class MusicService extends Service implements MediaPlayer.OnPreparedListe
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "Service has been started", Toast.LENGTH_SHORT).show();
-        player = MediaPlayer.create(this,R.raw.music);
-        player.start();
+        mIntent = intent;
+        id = mIntent.getExtras().getInt("musicId");
 
+        switch (id) {
+
+            case 1:
+                    player = MediaPlayer.create(this, R.raw.music);
+                    player.start();
+                    break;
+            case 2:
+                player = MediaPlayer.create(this,R.raw.music2);
+                player.start();
+                break;
+        }
 
 
 

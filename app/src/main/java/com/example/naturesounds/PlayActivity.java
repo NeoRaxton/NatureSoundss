@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.MediaController.MediaPlayerControl;
 import android.content.ServiceConnection;
 import android.view.MenuItem;
@@ -35,8 +36,9 @@ public class PlayActivity extends AppCompatActivity{
     public static final String CHANNEL_ID = "exampleServiceChannel";
     private Intent getPlayIntent;
     private int id;
-    private PlayModel mPlayModel;
-
+    DatabaseHelper myDb;
+    private ImageView mImageView;
+    private Context mContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,9 +46,24 @@ public class PlayActivity extends AppCompatActivity{
         setContentView(R.layout.play_main);
         button = (ImageButton) findViewById(R.id.btn_play);
         button.setBackgroundResource(R.drawable.play);
+        mImageView = (ImageView) findViewById(R.id.play_image);
         getPlayIntent = getIntent();
         id = getPlayIntent.getIntExtra("SoundId",0);
+        switch (id)
+        {
+            case 1:
+                mImageView.setImageResource(R.drawable.breeze);
+                break;
+            case 2:
+                mImageView.setImageResource(R.drawable.rain);
+                break;
+
+
+        }
+
+
         playIntent = new Intent(getApplicationContext(),MusicService.class);
+        playIntent.putExtra("musicId",id);
         buttonString = LoadButtonState();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
