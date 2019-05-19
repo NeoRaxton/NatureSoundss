@@ -51,9 +51,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(sql,null);
     }
 
-    public Cursor getASoundData(String _id) {
+    public Cursor getASoundData(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + DATABASE_NAME + " WHERE " + COL_1+ " =?", new String[]{_id});
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME + " WHERE " + COL_1+ " =?",new String[]{String.valueOf(id)});
         return cursor;
     }
 

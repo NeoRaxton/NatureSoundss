@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -21,8 +22,11 @@ import android.widget.MediaController.MediaPlayerControl;
 import android.content.ServiceConnection;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static com.example.naturesounds.DatabaseHelper.COL_2;
 
 
 public class PlayActivity extends AppCompatActivity{
@@ -32,34 +36,48 @@ public class PlayActivity extends AppCompatActivity{
     private Intent playIntent;
     private boolean musicBound=false;
     private ImageButton button;
-    private String buttonString;
+    private String buttonString,title;
     public static final String CHANNEL_ID = "exampleServiceChannel";
     private Intent getPlayIntent;
     private int id;
-    DatabaseHelper myDb;
+    DatabaseHelper myDb = new DatabaseHelper(this);
     private ImageView mImageView;
-    private Context mContext;
+    private TextView mTextView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_main);
+
         button = (ImageButton) findViewById(R.id.btn_play);
         button.setBackgroundResource(R.drawable.play);
         mImageView = (ImageView) findViewById(R.id.play_image);
+        mTextView = (TextView) findViewById(R.id.song_title);
         getPlayIntent = getIntent();
         id = getPlayIntent.getIntExtra("SoundId",0);
+        Cursor cursor = myDb.getASoundData(id);
+        Log.d("Cursor",String.valueOf(cursor.getCount()));
+        if (cursor.getCount()>0)
+        {
+            cursor.moveToFirst();
+            title = cursor.getString(cursor.getColumnIndex(COL_2));
+        }
+        cursor.close();
         switch (id)
         {
             case 1:
                 mImageView.setImageResource(R.drawable.breeze);
+                mTextView.setText(title);
                 break;
             case 2:
                 mImageView.setImageResource(R.drawable.rain);
+                mTextView.setText(title);
                 break;
 
 
         }
+
 
 
         playIntent = new Intent(getApplicationContext(),MusicService.class);

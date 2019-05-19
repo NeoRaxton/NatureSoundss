@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         if(settings.getBoolean("firstTime",true)){
             Toast.makeText(this,"First Time",Toast.LENGTH_LONG).show();
+            myDb.insertData("Rain");
+            myDb.insertData("Breeze");
             settings.edit().putBoolean("firstTime", false).apply();
         }
 
