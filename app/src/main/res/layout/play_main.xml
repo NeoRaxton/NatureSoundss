@@ -3,16 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="100">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:paddingTop="0dp"
-        android:layout_weight="60"
-        android:id="@+id/play_image"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher"
-        />
+    android:weightSum="100"
+    android:id="@+id/play_back">
 
     <TextView
         android:id="@+id/song_title"

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController.MediaPlayerControl;
 import android.content.ServiceConnection;
 import android.view.MenuItem;
@@ -41,18 +42,17 @@ public class PlayActivity extends AppCompatActivity{
     private Intent getPlayIntent;
     private int id;
     DatabaseHelper myDb = new DatabaseHelper(this);
-    private ImageView mImageView;
     private TextView mTextView;
+    private LinearLayout mLinearLayout;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.play_main);
-
+        mLinearLayout = (LinearLayout) findViewById(R.id.play_back);
         button = (ImageButton) findViewById(R.id.btn_play);
         button.setBackgroundResource(R.drawable.play);
-        mImageView = (ImageView) findViewById(R.id.play_image);
         mTextView = (TextView) findViewById(R.id.song_title);
         getPlayIntent = getIntent();
         id = getPlayIntent.getIntExtra("SoundId",0);
@@ -67,11 +67,11 @@ public class PlayActivity extends AppCompatActivity{
         switch (id)
         {
             case 1:
-                mImageView.setImageResource(R.drawable.breeze);
+                mLinearLayout.setBackgroundResource(R.drawable.breeze);
                 mTextView.setText(title);
                 break;
             case 2:
-                mImageView.setImageResource(R.drawable.rain);
+                mLinearLayout.setBackgroundResource(R.drawable.rain);
                 mTextView.setText(title);
                 break;
 

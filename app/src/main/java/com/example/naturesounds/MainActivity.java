@@ -81,9 +81,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void populateRecyclerView(){
-        SoundsModel soundsModel = new SoundsModel(1, R.drawable.ic_menu_gallery, "Hey yo");
+        SoundsModel soundsModel = new SoundsModel(1, R.drawable.rainz, "Rain");
         mSoundsModels.add(soundsModel);
-        soundsModel = new SoundsModel(2, R.drawable.ic_menu_camera, "Hey zz");
+        soundsModel = new SoundsModel(2, R.drawable.bird, "Birds");
         mSoundsModels.add(soundsModel);
         runOnUiThread(new Runnable() {
             @Override
@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
 
 
     @Override
@@ -132,14 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
+        if (id == R.id.nav_tools) {
 
         } else if (id == R.id.nav_share) {
 
